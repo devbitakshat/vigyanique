@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -54,6 +54,14 @@ const prescriptionSchema = z.object({
 type PrescriptionFormValues = z.infer<typeof prescriptionSchema>;
 
 export default function PrescriptionPage() {
+  return (
+    <Suspense fallback={<div className="h-screen flex items-center justify-center bg-slate-50 text-slate-400 font-medium">Loading prescription system...</div>}>
+      <PrescriptionContent />
+    </Suspense>
+  );
+}
+
+function PrescriptionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isSaving, setIsSaving] = useState(false);
